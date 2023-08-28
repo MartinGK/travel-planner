@@ -1,15 +1,13 @@
-import React from 'react';
-import './App.css';
+import "./App.css";
+import Layout from "./Layouts/layout";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>
-          Travel Planner
-        </h1>
-      </header>
-    </div>
+      <Layout>
+        <header>
+          <h1>Travel Planner</h1>
+        </header>
+      </Layout>
   );
 }
 

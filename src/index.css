@@ -1,13 +1,42 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.layout-background {
+  background-image: radial-gradient(
+    circle,
+    hsl(0, 0%, 100%) 0%,
+    hsl(173deg 47% 71%) 13%,
+    hsl(178deg 46% 69%) 18%,
+    hsl(183deg 49% 68%) 22%,
+    hsl(187deg 52% 67%) 26%,
+    hsl(192deg 60% 65%) 30%,
+    hsl(196deg 67% 64%) 35%,
+    hsl(200deg 71% 64%) 39%,
+    hsl(205deg 73% 65%) 43%,
+    hsl(222deg 67% 69%) 52%,
+    hsl(220deg 67% 70%) 69%,
+    hsl(183deg 49% 68%) 22%,
+    hsl(187deg 52% 67%) 26%,
+    hsl(192deg 60% 65%) 30%,
+    hsl(196deg 67% 64%) 70%,
+    hsl(200deg 71% 64%) 75%,
+    hsl(203deg 79% 65%) 81%,
+    hsl(193deg 76% 61%) 85%,
+    hsl(0, 0%, 100%) 100%
+  );
 }
