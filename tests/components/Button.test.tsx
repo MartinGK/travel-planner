@@ -1,4 +1,4 @@
-import Button from "../../../src/components/Button";
+import Button from "../../src/components/Button";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 const content = "test";

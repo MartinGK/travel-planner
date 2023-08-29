@@ -4,9 +4,9 @@ import { defaults } from "jest-config";
 const config: Config = {
   verbose: true,
   preset: "ts-jest",
-  moduleFileExtensions: [...defaults.moduleFileExtensions, 'ts', 'tsx'],
+  moduleFileExtensions: [...defaults.moduleFileExtensions, "ts", "tsx"],
   transform: {
-    "^.+\\.(ts|tsx)?$": "ts-jest"
+    "^.+\\.(ts|tsx)?$": "ts-jest",
   },
   fakeTimers: { enableGlobally: true },
   moduleNameMapper: {
@@ -14,6 +14,7 @@ const config: Config = {
   },
   testEnvironment: "jest-environment-jsdom",
   setupFilesAfterEnv: ["./jest.setup.ts"],
+  testPathIgnorePatterns: ["./tests/e2e"],
 };
 
 export default config;
