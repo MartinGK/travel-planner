@@ -4,7 +4,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 const content = "test";
 
 describe("Button", () => {
-const onClickMock = jest.fn();
+  const onClickMock = jest.fn();
   beforeEach(() => {
     render(<Button onClick={onClickMock}>{content}</Button>);
   });
@@ -26,9 +26,13 @@ const onClickMock = jest.fn();
 });
 
 describe("Button disabled", () => {
-const onClickMock = jest.fn();
+  const onClickMock = jest.fn();
   beforeEach(() => {
-    render(<Button onClick={onClickMock} disabled>{content}</Button>);
+    render(
+      <Button onClick={onClickMock} disabled>
+        {content}
+      </Button>
+    );
   });
 
   it("shouldn't call onClickMock on click", () => {
