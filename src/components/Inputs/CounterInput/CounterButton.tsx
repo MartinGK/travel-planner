@@ -12,14 +12,15 @@ const onMouseOver = (event: React.MouseEvent<HTMLButtonElement>) => {
   button.classList.add("bg-purple-200");
 };
 
-export default function CounterButton({ children, onClick, disabled }: Props) {
+export default function CounterButton({ children, onClick, disabled, ...props }: Props) {
   return (
     <button
       className={`bg-purple-600`}
-      onMouseOver={onMouseOver}
       aria-label="counter-button"
+      onMouseOver={onMouseOver}
       onClick={onClick}
       disabled={disabled}
+      {...props}
     >
       {children}
     </button>

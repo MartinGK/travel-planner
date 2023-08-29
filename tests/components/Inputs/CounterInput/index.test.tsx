@@ -1,11 +1,18 @@
-import CounterInput from "../../../../src/components/inputs/CounterInput";
+import CounterInput, {
+  errorMessage,
+} from "../../../../src/components/Inputs/CounterInput";
 import { act, fireEvent, render, screen } from "@testing-library/react";
-const errorMessage = "Select passengers";
-const onChangeMock = jest.fn();
 
 describe("CounterInput", () => {
+  const onChangeMock = jest.fn();
   beforeEach(() => {
-    render(<CounterInput onChange={onChangeMock} errorMessage="Select passengers" error={false} /> );
+    render(
+      <CounterInput
+        onChange={onChangeMock}
+        errorMessage={errorMessage}
+        error={false}
+      />
+    );
   });
 
   it("should render an input", () => {
@@ -29,7 +36,7 @@ describe("CounterInput", () => {
   });
 
   it("shouldn't render errorMessage if error is false", () => {
-    const input = screen.getByText(errorMessage);
+    const input = screen.queryByText(errorMessage);
     expect(input).toBeNull();
   });
 
@@ -38,37 +45,45 @@ describe("CounterInput", () => {
       const input = screen.getByRole("input", { name: /counter/i });
       expect(input).toHaveValue(0);
       const minusButton = screen.getByRole("button", { name: /minus/i });
-      act(() => fireEvent.click(minusButton))
+      act(() => fireEvent.click(minusButton));
       expect(input).toHaveValue(0);
     });
 
-    it("should increase the value by 1", () => {
-      const input = screen.getByRole("input", { name: /counter/i });
-      expect(input).toHaveValue(0);
-      const plusButton = screen.getByRole("button", { name: /plus/i });
-      act(() => fireEvent.click(plusButton))
-      expect(input).toHaveValue(1);
-    });
+    describe("when the user increase the value by 1", () => {
+      beforeEach(() => {
+        const plusButton = screen.getByRole("button", { name: /plus/i });
+        act(() => fireEvent.click(plusButton));
+      });
 
-    it("should subtract by 1 if the value is greater than 1", () => {
-      const input = screen.getByRole("input", { name: /counter/i });
-      expect(input).toBeGreaterThan(0);
-      const plusButton = screen.getByRole("button", { name: /plus/i });
-      act(() => fireEvent.click(plusButton))
-      expect(input).toHaveValue(0);
-    });
-    
-    it("should call onChangeMock", () => {
-      const plusButton = screen.getByRole("button", { name: /plus/i });
-      act(() => fireEvent.click(plusButton))
-      expect(onChangeMock).toHaveBeenCalled();
+      it("should increase the value by 1", () => {
+        const input = screen.getByRole("input", { name: /counter/i });
+        expect(input).toHaveValue(1);
+      });
+
+      it("should subtract by 1 if the value is greater than 1", () => {
+        const input = screen.getByRole("input", { name: /counter/i });
+        const minusButton = screen.getByRole("button", { name: /minus/i });
+        act(() => fireEvent.click(minusButton));
+        expect(input).toHaveValue(0);
+      });
+
+      it("should call onChangeMock", () => {
+        expect(onChangeMock).toHaveBeenCalled();
+      });
     });
   });
 });
 
 describe("error case", () => {
+  const onChangeMock = jest.fn();
   beforeEach(() => {
-    render(<CounterInput onChange={onChangeMock} errorMessage="Select passengers" error={true}/>);
+    render(
+      <CounterInput
+        onChange={onChangeMock}
+        errorMessage={errorMessage}
+        error={true}
+      />
+    );
   });
 
   it("should render an error", () => {
