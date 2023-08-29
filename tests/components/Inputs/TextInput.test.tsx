@@ -1,4 +1,4 @@
-import TextInput from "../../../src/components/input/TextInput";
+import TextInput from "../../../src/components/Inputs/TextInput";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 const labelExample = "label example";
@@ -12,6 +12,7 @@ describe("TextInput", () => {
         label={labelExample}
         onChange={onChangeMock}
         errorMessage={errorMessage}
+        error={false}
       />
     );
   });
@@ -33,8 +34,8 @@ describe("TextInput", () => {
   });
 
   it("shouldn't show error message", () => {
-    const error = screen.getByText(errorMessage);
-    expect(error).toBeInTheDocument();
+    const error = screen.queryByText(errorMessage);
+    expect(error).not.toBeInTheDocument();
   });
 
   it("should exist an X button", () => {
