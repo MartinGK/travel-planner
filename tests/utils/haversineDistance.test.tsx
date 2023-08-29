@@ -1,4 +1,4 @@
-import haversineDistance, { Points } from "../../src/utils/haversineDistance";
+import haversineDistance, { type Points } from "../../src/utils/haversineDistance";
 import AppendixA from "../../src/utils/AppendixA.json";
 
 const [, ...ParisPoints] = AppendixA[0];
