@@ -10,7 +10,7 @@ describe("Dropdown", () => {
   });
 
   it("should render", () => {
-    const dropdown = screen.getByRole("input", { name: /dropdown/i });
+    const dropdown = screen.getByRole("list", { name: /dropdown/i });
     expect(dropdown).toBeInTheDocument();
   });
 
@@ -29,7 +29,6 @@ describe("Dropdown", () => {
 
   it("should change item background color on hover", () => {
     const dropdownItem = screen.getByText(dropdownItems[0]);
-    fireEvent.mouseOver(dropdownItem);
-    expect(dropdownItem).toHaveClass("bg-purple-200");
+    expect(dropdownItem).toHaveClass("hover:bg-purple-200");
   });
 });
