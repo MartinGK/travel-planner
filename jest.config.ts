@@ -14,7 +14,7 @@ const config: Config = {
   },
   testEnvironment: "jest-environment-jsdom",
   setupFilesAfterEnv: ["./jest.setup.ts"],
-  testPathIgnorePatterns: ["./tests/e2e"],
+  testPathIgnorePatterns: ["node_modules", "./tests/e2e"],
 };
 
 export default config;

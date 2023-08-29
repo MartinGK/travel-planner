@@ -28,7 +28,11 @@ describe("Text primary", () => {
 
 describe("Text secondary", () => {
   beforeEach(() => {
-    render(<Text onClick={onClickMock} secondary>{testText}</Text>);
+    render(
+      <Text onClick={onClickMock} secondary>
+        {testText}
+      </Text>
+    );
   });
   it("should with purple-200 color", () => {
     const textComponent = screen.getByText(testText);
