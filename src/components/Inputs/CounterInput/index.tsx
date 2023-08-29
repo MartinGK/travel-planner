@@ -1,5 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CounterButton from "./CounterButton";
+
 export const errorMessage = "Select passengers";
 
 type Props = {
@@ -12,18 +13,18 @@ export default function CounterInput({ onChange, error }: Props) {
   const [counter, setCounter] = useState(0);
 
   const subtractOneToCounter = useCallback(() => {
-    if (counter > 0) {
-      setCounter(counter - 1);
-      onChange(counter);
-    }
+    if (counter > 0) setCounter(counter - 1);
   }, [counter]);
 
   const plusOneToCounter = useCallback(() => {
     setCounter(counter + 1);
-    onChange(counter);
   }, [counter]);
 
   const handleOnChange = useCallback(() => {
+    onChange(counter);
+  }, [counter]);
+
+  useEffect(() => {
     onChange(counter);
   }, [counter]);
 
