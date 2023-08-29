@@ -1,25 +1,32 @@
 // https://en.wikipedia.org/wiki/Haversine_formula
+export type Points = [number, number];
 
 type HaversineProps = {
-  firstPoint: [number, number];
-  secondPoint: [number, number];
+  firstPoints: Points;
+  secondPoints: Points;
 };
 
+function convertNumberToRad(num: number) {
+  return (num * Math.PI) / 180;
+}
+
 export default function haversineDistance({
-  firstPoint,
-  secondPoint,
+  firstPoints,
+  secondPoints,
 }: HaversineProps): number {
-  const [lat1, lon1] = firstPoint;
-  const [lat2, lon2] = secondPoint;
+  const [lat1, lon1] = firstPoints;
+  const [lat2, lon2] = secondPoints;
+
   const R = 6371; // Earth's radius in kilometers
 
-  const dLat = (lat2 - lat1) * (Math.PI / 180); // Convert to radians
-  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const dLat = convertNumberToRad(lat2 - lat1);
+  const dLon = convertNumberToRad(lon2 - lon1);
 
+  //haversine formula
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) *
-      Math.cos(lat2 * (Math.PI / 180)) *
+    Math.cos(convertNumberToRad(lat1)) *
+      Math.cos(convertNumberToRad(lat2)) *
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
 
