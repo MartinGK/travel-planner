@@ -2,9 +2,9 @@ import Button from "../../src/components/Button";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 const content = "test";
-const onClickMock = jest.fn();
 
 describe("Button", () => {
+const onClickMock = jest.fn();
   beforeEach(() => {
     render(<Button onClick={onClickMock}>{content}</Button>);
   });
@@ -26,6 +26,7 @@ describe("Button", () => {
 });
 
 describe("Button disabled", () => {
+const onClickMock = jest.fn();
   beforeEach(() => {
     render(<Button onClick={onClickMock} disabled>{content}</Button>);
   });
