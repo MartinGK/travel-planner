@@ -37,7 +37,7 @@ test.describe("The user:", () => {
   test("Fills the City of origin input", async ({ page }) => {
     const cityOfOrigin = page.locator('input[name="city-0"]');
     await fillInputWithText(cityOfOrigin, "Pa");
-    await page.waitForTimeout(1000)
+    await page.waitForTimeout(1000);
     await clickRecommendation(page, "Paris");
     await expect(cityOfOrigin).toHaveValue("Paris");
   });
@@ -200,15 +200,11 @@ test.describe("The user:", () => {
       "Dijon"
     );
     await clickRecommendation(page, "Dijon");
-    try {
-      await pressSubmitButton(page);
-      await page.waitForTimeout(10001);
-      const errorMessage = page.getByText(SOMETHING_WRONG_MESSAGE);
-      // ? https://github.com/microsoft/playwright/issues/22372
-      expect(errorMessage).toBeVisible();
-    } catch (error) {
-      console.log(error);
-    }
+    await pressSubmitButton(page);
+    await page.waitForTimeout(10001);
+    const errorMessage = page.getByText(SOMETHING_WRONG_MESSAGE);
+    // ? https://github.com/microsoft/playwright/issues/22372
+    expect(errorMessage).toBeVisible();
   });
 });
 
@@ -229,7 +225,7 @@ const fillAllCitiesInputs = async (page: Page) => {
     `input[name="city-0"]`,
     "Paris"
   );
-  await page.waitForTimeout(2001);
+  await page.waitForTimeout(3001);
   await page.getByText("Paris").nth(0).click();
 
   await findInputByLocatorAndFillItWithText(
@@ -237,7 +233,7 @@ const fillAllCitiesInputs = async (page: Page) => {
     `input[name="city-1"]`,
     "Marseille"
   );
-  await page.waitForTimeout(2001);
+  await page.waitForTimeout(3001);
   await page.getByText("Marseille").nth(1).click();
 };
 
