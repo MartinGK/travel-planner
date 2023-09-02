@@ -34,8 +34,8 @@ describe("Text secondary", () => {
       </Text>
     );
   });
-  it("should with purple-200 color", () => {
+  it("should with text-purple color", () => {
     const textComponent = screen.getByText(testText);
-    expect(textComponent).toHaveClass("purple-200");
+    expect(textComponent).toHaveClass("text-purple");
   });
 });

@@ -16,9 +16,9 @@ describe("CounterButton", () => {
 
   it("should change background on hover", () => {
     const button = screen.getByRole("button", { name: "counter-button" });
-    expect(button).toHaveClass("bg-purple-600");
+    expect(button).toHaveClass("bg-light-purple");
     fireEvent.mouseOver(button);
-    expect(button).toHaveClass("bg-purple-200");
+    expect(button).toHaveClass("hover:bg-purple");
   });
 
   it("should call onClickMock on click", () => {
@@ -39,9 +39,9 @@ describe("CounterButton disabled", () => {
   });
   it("shouldn't change background on hover", () => {
     const button = screen.getByRole("button", { name: "counter-button" });
-    expect(button).toHaveClass("bg-purple-600");
+    expect(button).toHaveClass("bg-light-purple");
     fireEvent.mouseOver(button);
-    expect(button).toHaveClass("bg-purple-600");
+    expect(button).toHaveClass("bg-light-purple");
   });
 
   it("shouldn't call onClickMock on click", () => {

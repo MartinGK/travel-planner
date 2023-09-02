@@ -11,6 +11,7 @@ const config: Config = {
   fakeTimers: { enableGlobally: true },
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
+    '^.+\\.css$': '<rootDir>/config/CSSStub.js'
   },
   testEnvironment: "jest-environment-jsdom",
   setupFilesAfterEnv: ["./jest.setup.ts"],

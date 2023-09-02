@@ -1,4 +1,4 @@
-import TextCloud from "../../../src/components/Text/TextCloud";
+import TextCloud from "../../../src/components/PurpleCloud";
 import { render, screen } from "@testing-library/react";
 
 const textContent = "test";
@@ -13,8 +13,8 @@ describe("TextCloud", () => {
     expect(textComponent).toBeInTheDocument();
   });
   
-  it("should be with purple-200 color", () => {
+  it("should be with border-purple color", () => {
     const textComponent = screen.getByText(textContent);
-    expect(textComponent).toHaveClass("purple-200");
+    expect(textComponent).toHaveClass("border-purple");
   });
 });

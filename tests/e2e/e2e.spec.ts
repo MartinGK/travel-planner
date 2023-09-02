@@ -1,5 +1,6 @@
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { format } from "date-fns";
+import dayjs from "dayjs";
 
 enum CITY_ERRORS {
   EMPTY = "You must choose the city of origin",
@@ -7,7 +8,8 @@ enum CITY_ERRORS {
 }
 
 const formatDate = (date: string): string => {
-  return format(new Date(date), "MMM d, Y");
+  
+  return dayjs(new Date(date)).format('MMM D, YYYY')
 };
 
 const RESULTS_ERROR_MESSAGE = "Oops! Something went wrong!";

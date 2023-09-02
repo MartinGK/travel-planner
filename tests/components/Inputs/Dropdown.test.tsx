@@ -29,6 +29,6 @@ describe("Dropdown", () => {
 
   it("should change item background color on hover", () => {
     const dropdownItem = screen.getByText(dropdownItems[0]);
-    expect(dropdownItem).toHaveClass("hover:bg-purple-200");
+    expect(dropdownItem).toHaveClass("hover:bg-purple");
   });
 });

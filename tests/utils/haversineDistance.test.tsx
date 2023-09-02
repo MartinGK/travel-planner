@@ -1,10 +1,12 @@
-import haversineDistance, { type Points } from "../../src/utils/haversineDistance";
-import AppendixA from "../../src/utils/AppendixA.json";
+import haversineDistance, {
+  type Points,
+} from "../../src/utils/haversineDistance";
+import { cities } from "../../src/utils/fakeApi/AppendixA.json";
 
-const [, ...ParisPoints] = AppendixA[0];
-const [, ...MarseillePoints] = AppendixA[1];
-const [, ...LyonPoints] = AppendixA[2];
-const [, ...DijonPoints] = AppendixA.filter((data) => data[0] === "Dijon")[0];
+const [, ...ParisPoints] = cities[0];
+const [, ...MarseillePoints] = cities[1];
+const [, ...LyonPoints] = cities[2];
+const [, ...DijonPoints] = cities.filter((data) => data[0] === "Dijon")[0];
 
 describe("haversineDistance: calculates haversine distance between", () => {
   test("Paris & Marseille", () => {
