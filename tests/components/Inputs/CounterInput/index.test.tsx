@@ -27,7 +27,7 @@ describe("CounterInput", () => {
   });
 
   it("should render an input", () => {
-    const input = screen.getByRole("input", { name: /counter/i });
+    const input = screen.getByRole("spinbutton", { name: /counter/i });
     expect(input).toBeInTheDocument();
   });
 
@@ -42,12 +42,12 @@ describe("CounterInput", () => {
   });
 
   it("should render a value", () => {
-    const input = screen.getByRole("input", { name: /counter/i });
+    const input = screen.getByRole("spinbutton", { name: /counter/i });
     expect(input).toHaveValue(0);
   });
 
   it("should call onChangeMock with an specific value", () => {
-    const input = screen.getByRole("input", { name: /counter/i });
+    const input = screen.getByRole("spinbutton", { name: /counter/i });
     fireEvent.change(input, { target: { value: 3 } });
     expect(onChangeMock).toHaveBeenCalledWith("3");
   });
@@ -59,7 +59,7 @@ describe("CounterInput", () => {
 
   describe("when a button is clicked", () => {
     it("shouldn't subtract if the value is 0", () => {
-      const input = screen.getByRole("input", { name: /counter/i });
+      const input = screen.getByRole("spinbutton", { name: /counter/i });
       expect(input).toHaveValue(0);
       const minusButton = screen.getByRole("button", { name: /minus/i });
       act(() => fireEvent.click(minusButton));
@@ -77,7 +77,7 @@ describe("CounterInput", () => {
       });
 
       it("should subtract by 1 if the value is greater than 1", () => {
-        const input = screen.getByRole("input", { name: /counter/i });
+        const input = screen.getByRole("spinbutton", { name: /counter/i });
         const minusButton = screen.getByRole("button", { name: /minus/i });
         act(() => fireEvent.click(minusButton));
         expect(input).toHaveValue(0);
@@ -102,7 +102,7 @@ describe("CounterInput", () => {
             </Form>
           );
         });
-        
+
         it("should call onChangeMock with 0 on subtract", () => {
           const minusButton = screen.getByRole("button", { name: /minus/i });
           act(() => fireEvent.click(minusButton));

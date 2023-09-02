@@ -1,5 +1,4 @@
 import { test, expect, type Page, type Locator } from "@playwright/test";
-import { format } from "date-fns";
 import dayjs from "dayjs";
 
 enum CITY_ERRORS {
@@ -18,7 +17,7 @@ const expectedUrlParams =
 
 test.describe("The user:", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("https://localhost:3000/");
+    await page.goto("/");
   });
 
   test("Goes to the home page", async ({ page }) => {
@@ -107,7 +106,7 @@ test.describe("The user:", () => {
         }) => {
           const submitButton = page.getByText("Submit");
           await submitButton.click();
-          await expect(page).toHaveURL("https://localhost:3000/");
+          await expect(page).toHaveURL("/");
         });
 
         test.describe("after change date input with tomorrow value", () => {
@@ -137,7 +136,7 @@ test.describe("The user:", () => {
           }) => {
             await page.reload();
             await expect(page).toHaveURL(
-              `https://localhost:3000/${expectedUrlParams}`
+              `/${expectedUrlParams}`
             );
           });
 
@@ -154,7 +153,7 @@ test.describe("The user:", () => {
 
             test("checks the url", async ({ page }) => {
               await expect(page).toHaveURL(
-                `https://localhost:3000/results${expectedUrlParams}`
+                `/results${expectedUrlParams}`
               );
             });
 
