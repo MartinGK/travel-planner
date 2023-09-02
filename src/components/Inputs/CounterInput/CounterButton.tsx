@@ -1,24 +1,21 @@
 type Props = {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
 };
 
-const onMouseOver = (event: React.MouseEvent<HTMLButtonElement>) => {
-  event.preventDefault();
-  const button = event.target as HTMLButtonElement;
-  if (button.disabled) return;
-  button.classList.remove("bg-purple-600");
-  button.classList.add("bg-purple-200");
-};
-
-export default function CounterButton({ children, onClick, disabled, ...props }: Props) {
+export default function CounterButton({
+  children,
+  onClick,
+  disabled,
+  ...props
+}: Props) {
   return (
     <button
-      className={`bg-purple-600`}
+      className={`bg-light-purple disabled:hover:bg-light-purple hover:bg-purple w-6 h-6 rounded transition-colors duration-300 ease-in-out text-white`}
       aria-label="counter-button"
-      onMouseOver={onMouseOver}
       onClick={onClick}
+      type="button"
       disabled={disabled}
       {...props}
     >

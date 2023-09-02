@@ -11,7 +11,7 @@ export default function Dropdown({ items, onClickItem }: Props) {
           <li
             key={item}
             onClick={() => onClickItem(item)}
-            className="hover:bg-purple-200"
+            className="hover:bg-purple"
           >
             {item}
           </li>

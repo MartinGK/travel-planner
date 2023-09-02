@@ -1,52 +1,87 @@
-import { useCallback, useEffect, useState } from "react";
 import CounterButton from "./CounterButton";
-
-export const errorMessage = "Select passengers";
+import { Field, Control } from "@radix-ui/react-form";
+import ErrorMessage from "../../Form/ErrorMessage";
+import { v4 as uuid } from "uuid";
+import Label from "../../Form/Label";
 
 type Props = {
-  onChange: (value: number) => void;
-  errorMessage: string;
-  error?: boolean;
+  name: string;
+  label: string;
+  value: string;
+  error: boolean;
+  onChange: (value: string) => void;
 };
 
-export default function CounterInput({ onChange, error }: Props) {
-  const [counter, setCounter] = useState(0);
+export default function CounterInput({
+  name,
+  label,
+  value,
+  error,
+  onChange,
+}: Props) {
+  const uniqueId = uuid();
 
-  const subtractOneToCounter = useCallback(() => {
-    if (counter > 0) setCounter(counter - 1);
-  }, [counter]);
+  const subtractOneToCounter = () => {
+    if (parseInt(value) > 0) {
+      handleChangeValue((parseInt(value) - 1).toString());
+    }
+  };
 
-  const plusOneToCounter = useCallback(() => {
-    setCounter(counter + 1);
-  }, [counter]);
+  const plusOneToCounter = () => {
+    handleChangeValue((parseInt(value) + 1).toString());
+  };
 
-  const handleOnChange = useCallback(() => {
-    onChange(counter);
-  }, [counter]);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleChangeValue(event.target.value);
+  };
 
-  useEffect(() => {
-    onChange(counter);
-  }, [counter]);
+  const handleChangeValue = (newValue: string) => {
+    onChange(newValue);
+  };
+
+  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleChangeValue(event.target.value);
+  }
 
   return (
-    <div>
-      <div>
-        <CounterButton aria-label="minus" onClick={subtractOneToCounter}>
+    <Field
+      className="relative"
+      name={name}
+      aria-required
+      onChange={handleChange}
+    >
+      <Label htmlFor={uniqueId}>{label}</Label>
+
+      <div
+        className={`flex border ${
+          error ? "border-red-500" : "border-gray-200"
+        } p-1 rounded w-fit`}
+      >
+        <CounterButton
+          aria-label="minus"
+          onClick={subtractOneToCounter}
+          disabled={value === "0"}
+        >
           -
         </CounterButton>
-        <input
-          role="input"
+        <Control
           type="number"
+          name={name}
           aria-label="counter"
-          className="w-10 text-center"
-          onChange={handleOnChange}
-          value={counter}
+          className={`text-center w-8 focus-visible:outline-none`}
+          onChange={handleChangeInput}
+          value={value}
+          id={uniqueId}
         />
         <CounterButton aria-label="plus" onClick={plusOneToCounter}>
           +
         </CounterButton>
       </div>
-      {error && <span>{errorMessage}</span>}
-    </div>
+      <div className={`h-3 relative ${error ? "contents" : ""}`}>
+        <ErrorMessage showError={error} name={name}>
+          Select passengers
+        </ErrorMessage>
+      </div>
+    </Field>
   );
 }

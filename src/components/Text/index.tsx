@@ -1,14 +1,14 @@
 type Props = {
   onClick?: () => void;
-  children: string[] | string;
+  children: string[] | string |React.ReactNode;
   secondary?: boolean;
 };
 
-export default function Text({ children, onClick, secondary }: Props) {
+export default function Text({ children, onClick, secondary, className }: Props & React.HTMLAttributes<HTMLSpanElement>) {
   return (
     <span
       onClick={onClick}
-      className={`${secondary ? "purple-200" : "black-0"}`}
+      className={`text-xs whitespace-nowrap ${secondary ? "text-purple" : "black-0"} ${className}`}
     >
       {children}
     </span>

@@ -28,7 +28,7 @@ export default function TextInput({
   };
 
   return (
-    <div>
+    <div className="relative">
       <label htmlFor={uniqueId}>{label}</label>
       <input
         role="input"
@@ -36,7 +36,7 @@ export default function TextInput({
         value={value}
         aria-label="text-input"
         onChange={handleOnChange}
-      ></input>
+      />
       <Cross1Icon
         role="button"
         className={`absolute right-0 ${value ? "opacity-100" : "opacity-0"}`}
