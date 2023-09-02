@@ -1,5 +1,5 @@
 import haversineDistance from "./haversineDistance";
-import { cities } from "../../src/utils/fakeApi/AppendixA.json";
+import jsonData from "../../src/utils/fakeApi/AppendixA.json";
 const ERROR_STRING = "fail";
 const ERROR_CITY = "Dijon";
 
@@ -15,7 +15,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const getAllCitiesData = async (): Promise<Cities> => {
   await sleep(3000);
-  return new Promise((resolve) => resolve(cities as Cities));
+  return new Promise((resolve) => resolve(jsonData.cities as Cities));
 };
 
 export const getAllCitiesNames = async (): Promise<string[]> => {
