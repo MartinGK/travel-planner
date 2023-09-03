@@ -209,8 +209,7 @@ test.describe("The user:", () => {
 });
 
 const clickRecommendation = async (page: Page, text: string) => {
-  const rec = page.getByText(text).first();
-  await rec.click();
+  await page.getByText(text).first().click();
 };
 
 const fillAllInputs = async (page: Page) => {

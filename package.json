@@ -7,7 +7,8 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "test": "jest --coverage --watch",
-    "e2e": "npx playwright test"
+    "e2e": "npx playwright test",
+    "e2e-ui": "npx playwright test --ui"
   },
   "repository": {
     "type": "git",
