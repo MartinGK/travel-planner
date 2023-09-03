@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Mozio challenge",
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"json-server --watch ./src/utils/fakeApi/AppendixA.json --port 3001\"",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --coverage --watch",
     "eject": "react-scripts eject"
@@ -22,7 +22,6 @@
     "@radix-ui/react-icons": "^1.3.0",
     "@reduxjs/toolkit": "^1.9.5",
     "antd": "^5.8.5",
-    "concurrently": "^8.2.1",
     "dayjs": "^1.11.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
