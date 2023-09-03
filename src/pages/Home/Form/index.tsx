@@ -2,11 +2,11 @@ import { Root } from "@radix-ui/react-form";
 import { PlusCircledIcon, CrossCircledIcon } from "@radix-ui/react-icons";
 import Text from "../../../components/Text";
 import SubmitButton from "../../../components/Buttons/SubmitButton";
-import Combobox from "../../../components/Inputs/Combobox";
+import Combobox from "../../../components/Form/Combobox";
 import PassengersInput from "../../../components/Form/PassengersInput";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import DatePicker from "../../../components/Inputs/DatePicker";
+import DatePicker from "../../../components/Form/DatePicker";
 import CitiesPathIcons from "../../CitiesPathIcons";
 import dayjs from "dayjs";
 
@@ -125,10 +125,10 @@ export default function Form() {
   };
 
   const removeError = (key: paramsKeys, index?: number) => {
-    const newErrors: any = { ...errors };
-    if (typeof newErrors[key] === "boolean" && index === undefined) {
+    const newErrors: FormErrors = { ...errors };
+    if (key !== "cities") {
       newErrors[key] = false;
-    } else if (index !== undefined) {
+    } else if (index !== undefined && key === "cities") {
       newErrors[key][index] = false;
     }
     setErrors(newErrors);

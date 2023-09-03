@@ -1,4 +1,4 @@
-import DatePicker from "../../../src/components/Inputs/DatePicker";
+import DatePicker from "../../../src/components/Form/DatePicker";
 import { Form } from "@radix-ui/react-form";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import dayjs from "dayjs";

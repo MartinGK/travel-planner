@@ -1,8 +1,8 @@
 import CounterButton from "./CounterButton";
 import { Field, Control } from "@radix-ui/react-form";
-import ErrorMessage from "../../Form/ErrorMessage";
+import ErrorMessage from "../ErrorMessage";
 import { v4 as uuid } from "uuid";
-import Label from "../../Form/Label";
+import Label from "../Label";
 
 type Props = {
   name: string;

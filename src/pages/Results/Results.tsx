@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useReactRedux";
 import ProgressBar from "../../components/ProgressBar";
 import dayjs from "dayjs";
 
-const TripInKmCloud = ({ distance }: { distance: any }) => {
+const TripInKmCloud = ({ distance }: { distance: number }) => {
   return (
     <PurpleCloud>
       {distance ? (
@@ -66,7 +66,7 @@ export default function Results() {
                 />
               );
             }
-            return <></>;
+            return null;
           })}
         </div>
         <CitiesPathIcons dots={3} circles={cities.length - 1} />

@@ -4,7 +4,7 @@ import ArrowCircled from "../../icons/ArrowCircled";
 import { Field } from "@radix-ui/react-form";
 import dayjs from "dayjs";
 import { v4 as uuid } from "uuid";
-import Label from "../../Form/Label";
+import Label from "../Label";
 import "./index.css";
 
 type Props = {

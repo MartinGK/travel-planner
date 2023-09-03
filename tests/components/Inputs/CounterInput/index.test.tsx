@@ -1,4 +1,4 @@
-import CounterInput from "../../../../src/components/Inputs/CounterInput";
+import CounterInput from "../../../../src/components/Form/CounterInput";
 import {
   act,
   fireEvent,

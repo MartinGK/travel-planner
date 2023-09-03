@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 import { MutableRefObject, createRef, useRef, useState } from "react";
 import { Field, Control } from "@radix-ui/react-form";
-import ErrorMessage from "../Form/ErrorMessage";
-import Label from "../Form/Label";
+import ErrorMessage from "./ErrorMessage";
+import Label from "./Label";
 import { Skeleton } from "antd";
 import { useQuery } from "react-query";
 import { getRecommendationsList } from "../../utils/endpoints";
@@ -76,7 +76,7 @@ export default function Combobox({
   };
 
   const deleteValue = () => {
-    setValue("");
+    handleValueChange("");
   };
 
   return (
@@ -91,11 +91,14 @@ export default function Combobox({
       <Control
         role="combobox"
         name={name}
+        autoComplete="off"
         id={uniqueId}
         ref={inputRef}
         value={value}
         onChange={handleShowRecommendations}
-        className="border-gray-200 border-solid border rounded-md px-2 py-1 text-sm font-semibold focus-within:outline-none invalid:border-red-500"
+        className={`border-solid border rounded-md px-2 py-1 text-sm font-semibold focus-within:outline-none ${
+          error ? "border-red-500" : "border-gray-200"
+        }`}
         aria-label="text-input"
       />
       <Cross1Icon

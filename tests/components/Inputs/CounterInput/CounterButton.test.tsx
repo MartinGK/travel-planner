@@ -1,4 +1,4 @@
-import CounterButton from "../../../../src/components/Inputs/CounterInput/CounterButton";
+import CounterButton from "../../../../src/components/Form/CounterInput/CounterButton";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 const content = "+";

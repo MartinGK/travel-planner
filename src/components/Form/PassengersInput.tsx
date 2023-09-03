@@ -1,4 +1,4 @@
-import CounterInput from "../Inputs/CounterInput";
+import CounterInput from "./CounterInput";
 
 type Props = {
   value: string;
