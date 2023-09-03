@@ -5,8 +5,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "eject": "react-scripts eject",
     "test": "jest --coverage --watch",
-    "eject": "react-scripts eject"
+    "e2e": "npx playwright test"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,8 @@
     "react-router": "^6.15.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "^5.0.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@playwright/test": "^1.37.1",
@@ -42,7 +44,6 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "jest": "^29.6.4",
-    "jest-dom": "^4.0.0",
     "jest-environment-jsdom": "^29.6.2",
     "tailwindcss": "^3.3.3",
     "ts-jest": "^29.1.1",
