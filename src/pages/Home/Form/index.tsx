@@ -37,17 +37,24 @@ const generateParamsObjectFromFormData = (data: {
     } else if (key in params) {
       if (key === "date" && checkIfDateIsBefore(data[key])) {
         return;
+      } else if (key === "date" && checkIfDateIsNotValid(data[key])) {
+        return;
       } else {
         params[key as keyof ResultsProps] = data[key] as string;
       }
     }
   });
+
   params.cities = JSON.stringify(citiesParam);
   return params;
 };
 
 const checkIfDateIsBefore = (date: string | FormDataEntryValue) => {
   return dayjs(date as string, "DD/MM/YYYY").isBefore(dayjs().add(-1, "day"));
+};
+
+const checkIfDateIsNotValid = (date: string | FormDataEntryValue) => {
+  return !dayjs(date as string, "DD/MM/YYYY").isValid();
 };
 
 export default function Form() {
@@ -244,9 +251,7 @@ export default function Form() {
           <DatePicker
             error={errors.date}
             value={date ? date : dayjs().format("DD/MM/YYYY")}
-            onChange={(value) => {
-              updateSearchParams("date", value);
-            }}
+            onChange={(value) => updateSearchParams("date", value)}
           />
         </div>
       </div>

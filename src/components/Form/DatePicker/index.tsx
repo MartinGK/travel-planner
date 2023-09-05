@@ -45,7 +45,7 @@ export default function DatePicker({ value, onChange, error }: Props) {
           disabledDate={(date) => date.isBefore(dayjs().add(-1, "day"))}
           popupClassName="customDatePicker"
           className={error ? "border-red-500" : ""}
-          defaultValue={dayjs(value, "DD/MM/YYYY")}
+          value={dayjs(value, "DD/MM/YYYY")}
         />
       </Space>
       <ErrorMessage showError={error}>Select a valid date</ErrorMessage>
