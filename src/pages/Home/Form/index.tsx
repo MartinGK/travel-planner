@@ -37,7 +37,7 @@ const generateParamsObjectFromFormData = (data: {
     } else if (key in params) {
       if (key === "date" && checkIfDateIsBefore(data[key])) {
         return;
-      }else{
+      } else {
         params[key as keyof ResultsProps] = data[key] as string;
       }
     }
@@ -47,7 +47,7 @@ const generateParamsObjectFromFormData = (data: {
 };
 
 const checkIfDateIsBefore = (date: string | FormDataEntryValue) => {
-  return dayjs(date as string, "DD/MM/YYYY").isBefore(dayjs());
+  return dayjs(date as string, "DD/MM/YYYY").isBefore(dayjs().add(-1, "day"));
 };
 
 export default function Form() {
@@ -250,7 +250,7 @@ export default function Form() {
           />
         </div>
       </div>
-      <div className="flex justify-center items-center pt-5">
+      <div className="flex justify-center items-center pt-5 z-20">
         <SubmitButton
           disabled={submitDisabled}
           className=" col-start-3 col-end-4"

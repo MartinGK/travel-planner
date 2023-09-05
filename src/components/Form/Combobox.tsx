@@ -98,12 +98,10 @@ export default function Combobox({
 
   return (
     <>
-      {showRecommendations && (
-        <div
-          className={`z-10 opacity-100 h-screen bg-transparent absolute w-screen top-0 left-0`}
-          onClick={() => setShowRecommendations(false)}
-        />
-      )}
+      <div
+        className={`z-10 opacity-100 h-screen bg-transparent absolute w-screen top-0 left-0 ${showRecommendations ? 'block': 'hidden'}`}
+        onClick={() => setShowRecommendations(false)}
+      />
       <Field
         name={name}
         className="flex flex-col relative z-20"
@@ -139,7 +137,7 @@ export default function Combobox({
                 : recommendations.length
             ]
           } overflow-y-scroll overflow-x-hidden left-0 w-48 border border-light-purple ${
-            showRecommendations ? " z-20 opacity-100" : "-z-20 opacity-0"
+            showRecommendations ? " z-20 opacity-100" : "-z-20 opacity-0 hidden"
           }
         `}
         >
