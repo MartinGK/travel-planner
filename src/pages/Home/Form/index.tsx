@@ -194,7 +194,7 @@ export default function Form() {
               return (
                 <div
                   key={`combobox-container-${i}`}
-                  className="flex gap-2 justify-start relative"
+                  className="flex gap-2 justify-start"
                 >
                   <Combobox
                     label={`City of ${i === 0 ? "origin" : "destination"}`}

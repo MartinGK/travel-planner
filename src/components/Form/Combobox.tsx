@@ -1,15 +1,14 @@
 import { v4 as uuid } from "uuid";
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { Field, Control } from "@radix-ui/react-form";
 import ErrorMessage from "./ErrorMessage";
 import Label from "./Label";
 import { Skeleton } from "antd";
 import { useQuery } from "react-query";
-import { NO_RECOMMENDATIONS_MESSAGE, getRecommendationsList } from "../../utils/endpoints";
+import {
+  NO_RECOMMENDATIONS_MESSAGE,
+  getRecommendationsList,
+} from "../../utils/endpoints";
 import { useAppDispatch, useAppSelector } from "../../hooks/useReactRedux";
 import { setRecommendedCities } from "../../store/slices/citiesSlice";
 import { Cross1Icon } from "@radix-ui/react-icons";
@@ -24,7 +23,6 @@ const RecommendationsBottomPosition: TRecommendationsBottomPosition = {
   2: "-bottom-14 h-18",
   3: "-bottom-[5.5rem] h-[6.1rem]",
 };
-
 
 type Props = {
   label: string;
@@ -99,71 +97,78 @@ export default function Combobox({
   }, [value]);
 
   return (
-    <Field
-      name={name}
-      className="flex flex-col relative"
-      {...props}
-      aria-required
-    >
-      <Label htmlFor={uniqueId}>{label}</Label>
-      <Control
-        role="combobox"
-        name={name}
-        autoComplete="off"
-        id={uniqueId}
-        ref={inputRef}
-        onChange={handleShowRecommendations}
-        className={`border-solid border rounded-md px-2 py-1 text-sm font-semibold focus-within:outline-none ${
-          error ? "border-red-500" : "border-gray-200"
-        }`}
-        aria-label="text-input"
-      />
-      <Cross1Icon
-        role="button"
-        className={`absolute right-1 bottom-[18px] text-purple ${
-          value ? "opacity-100" : "opacity-0"
-        }`}
-        aria-label="delete"
-        onClick={deleteValue}
-      />
-      <div
-        className={`absolute transition bg-white shadow-xl rounded py-2 ${
-          RecommendationsBottomPosition[
-            recommendations.length >= 3 || isLoadingRecommendations
-              ? 3
-              : recommendations.length
-          ]
-        } overflow-y-scroll overflow-x-hidden left-0 w-48 border border-light-purple ${
-          showRecommendations ? " z-10 opacity-100" : "-z-20 opacity-0"
-        }
-        `}
-        // onMouseLeave={() => setShowRecommendations(false)}
-      >
-        <Skeleton
-          title={false}
-          paragraph={{ rows: 3, width: "9rem" }}
-          className="px-2"
-          active
-          loading={isLoadingRecommendations}
+    <>
+      {showRecommendations && (
+        <div
+          className={`z-10 opacity-100 h-screen bg-transparent absolute w-screen top-0 left-0`}
+          onClick={() => setShowRecommendations(false)}
         />
-        {!isLoadingRecommendations && (
-          <Recommendations
-            onClickRecommendation={(recommendation: string) =>
-              handleClickRecommendation(recommendation)
-            }
-            disabled={recommendations[0] === NO_RECOMMENDATIONS_MESSAGE}
-            recommendations={recommendations}
+      )}
+      <Field
+        name={name}
+        className="flex flex-col relative z-20"
+        {...props}
+        aria-required
+      >
+        <Label htmlFor={uniqueId}>{label}</Label>
+        <Control
+          role="combobox"
+          name={name}
+          autoComplete="off"
+          id={uniqueId}
+          ref={inputRef}
+          onChange={handleShowRecommendations}
+          className={`border-solid border rounded-md px-2 py-1 text-sm font-semibold focus-within:outline-none ${
+            error ? "border-red-500" : "border-gray-200"
+          }`}
+          aria-label="text-input"
+        />
+        <Cross1Icon
+          role="button"
+          className={`absolute right-1 bottom-[18px] text-purple ${
+            value ? "opacity-100" : "opacity-0"
+          }`}
+          aria-label="delete"
+          onClick={deleteValue}
+        />
+        <div
+          className={`absolute transition bg-white shadow-xl rounded py-2 ${
+            RecommendationsBottomPosition[
+              recommendations.length >= 3 || isLoadingRecommendations
+                ? 3
+                : recommendations.length
+            ]
+          } overflow-y-scroll overflow-x-hidden left-0 w-48 border border-light-purple ${
+            showRecommendations ? " z-20 opacity-100" : "-z-20 opacity-0"
+          }
+        `}
+        >
+          <Skeleton
+            title={false}
+            paragraph={{ rows: 3, width: "9rem" }}
+            className="px-2"
+            active
+            loading={isLoadingRecommendations}
           />
-        )}
-      </div>
-      <ErrorMessage name={name} showError={error}>
-        {`You must choose ${
-          label.includes("origin") && value === ""
-            ? "the city of origin"
-            : "a valid city"
-        }`}
-      </ErrorMessage>
-    </Field>
+          {showRecommendations && (
+            <Recommendations
+              onClickRecommendation={(recommendation: string) =>
+                handleClickRecommendation(recommendation)
+              }
+              disabled={recommendations[0] === NO_RECOMMENDATIONS_MESSAGE}
+              recommendations={recommendations}
+            />
+          )}
+        </div>
+        <ErrorMessage name={name} showError={error}>
+          {`You must choose ${
+            label.includes("origin") && value === ""
+              ? "the city of origin"
+              : "a valid city"
+          }`}
+        </ErrorMessage>
+      </Field>
+    </>
   );
 }
 
@@ -177,7 +182,7 @@ const Recommendations = ({
   onClickRecommendation: (r: string) => void;
 }) => {
   return (
-    <ul className="grid gap-2 justify-center relative">
+    <ul className="grid gap-2 justify-center relative z-20">
       {recommendations.map((recommendation) => {
         return (
           <li
