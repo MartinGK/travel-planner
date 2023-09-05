@@ -1,7 +1,9 @@
 import haversineDistance from "./haversineDistance";
 import jsonData from "../../src/utils/fakeApi/AppendixA.json";
+
 const ERROR_STRING = "fail";
 const ERROR_CITY = "Dijon";
+export const NO_RECOMMENDATIONS_MESSAGE = "No recommendations found";
 
 export type DataResponse = {
   cities: Cities;
@@ -34,16 +36,10 @@ export const getRecommendationsList = async (keyword: string) => {
     c.toLowerCase().includes(keyword.toLowerCase())
   );
 
-  while (recommendations.length <= 2) {
-    const index = Math.floor(Math.random() * allCitiesNames.length);
-    if (!recommendations.includes(allCitiesNames[index])) {
-      recommendations.push(allCitiesNames[index]);
-    }
+  if(recommendations.length === 0){
+    recommendations.push(NO_RECOMMENDATIONS_MESSAGE);
   }
 
-  while (recommendations.length > 3) {
-    recommendations.pop();
-  }
   return recommendations;
 };
 

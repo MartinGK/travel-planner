@@ -1,7 +1,5 @@
 import { v4 as uuid } from "uuid";
 import {
-  MutableRefObject,
-  createRef,
   useEffect,
   useRef,
   useState,
@@ -11,10 +9,22 @@ import ErrorMessage from "./ErrorMessage";
 import Label from "./Label";
 import { Skeleton } from "antd";
 import { useQuery } from "react-query";
-import { getRecommendationsList } from "../../utils/endpoints";
+import { NO_RECOMMENDATIONS_MESSAGE, getRecommendationsList } from "../../utils/endpoints";
 import { useAppDispatch, useAppSelector } from "../../hooks/useReactRedux";
 import { setRecommendedCities } from "../../store/slices/citiesSlice";
 import { Cross1Icon } from "@radix-ui/react-icons";
+
+type TRecommendationsBottomPosition = {
+  [k: number]: string;
+};
+
+const RecommendationsBottomPosition: TRecommendationsBottomPosition = {
+  0: "-bottom-20 h-24",
+  1: "-bottom-[2rem] h-10",
+  2: "-bottom-14 h-18",
+  3: "-bottom-[5.5rem] h-[6.1rem]",
+};
+
 
 type Props = {
   label: string;
@@ -55,7 +65,7 @@ export default function Combobox({
     },
     onError() {
       setIsLoadingRecommendations(false);
-      dispatch(setRecommendedCities(["No recommendations found"]));
+      dispatch(setRecommendedCities([NO_RECOMMENDATIONS_MESSAGE]));
     },
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -118,16 +128,20 @@ export default function Combobox({
       />
       <div
         className={`absolute transition bg-white shadow-xl rounded py-2 ${
-          recommendations.length === 1 ? "-bottom-6" : "-bottom-24"
-        } left-0 w-48 h-fit border border-light-purple ${
+          RecommendationsBottomPosition[
+            recommendations.length >= 3 || isLoadingRecommendations
+              ? 3
+              : recommendations.length
+          ]
+        } overflow-y-scroll overflow-x-hidden left-0 w-48 border border-light-purple ${
           showRecommendations ? " z-10 opacity-100" : "-z-20 opacity-0"
         }
         `}
-        onMouseLeave={() => setShowRecommendations(false)}
+        // onMouseLeave={() => setShowRecommendations(false)}
       >
         <Skeleton
           title={false}
-          paragraph={{ rows: 3, width: "10rem" }}
+          paragraph={{ rows: 3, width: "9rem" }}
           className="px-2"
           active
           loading={isLoadingRecommendations}
@@ -137,7 +151,7 @@ export default function Combobox({
             onClickRecommendation={(recommendation: string) =>
               handleClickRecommendation(recommendation)
             }
-            disabled={recommendations.length === 1}
+            disabled={recommendations[0] === NO_RECOMMENDATIONS_MESSAGE}
             recommendations={recommendations}
           />
         )}
