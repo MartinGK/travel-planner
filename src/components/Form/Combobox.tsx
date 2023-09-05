@@ -1,5 +1,11 @@
 import { v4 as uuid } from "uuid";
-import { MutableRefObject, createRef, useRef, useState } from "react";
+import {
+  MutableRefObject,
+  createRef,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Field, Control } from "@radix-ui/react-form";
 import ErrorMessage from "./ErrorMessage";
 import Label from "./Label";
@@ -21,13 +27,11 @@ type Props = {
 export default function Combobox({
   label,
   name,
-  value: v,
+  value,
   error,
   onChange,
   ...props
 }: Props) {
-  const [value, setValue] = useState(v);
-  const testRef = createRef<MutableRefObject<HTMLDivElement> | null>();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [showRecommendations, setShowRecommendations] = useState(false);
   const recommendations = useAppSelector(
@@ -71,7 +75,6 @@ export default function Combobox({
   };
 
   const handleValueChange = (newValue: string) => {
-    setValue(newValue);
     onChange(newValue);
   };
 
@@ -79,13 +82,18 @@ export default function Combobox({
     handleValueChange("");
   };
 
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = value;
+    }
+  }, [value]);
+
   return (
     <Field
       name={name}
       className="flex flex-col relative"
       {...props}
       aria-required
-      ref={testRef.current}
     >
       <Label htmlFor={uniqueId}>{label}</Label>
       <Control
@@ -94,7 +102,6 @@ export default function Combobox({
         autoComplete="off"
         id={uniqueId}
         ref={inputRef}
-        value={value}
         onChange={handleShowRecommendations}
         className={`border-solid border rounded-md px-2 py-1 text-sm font-semibold focus-within:outline-none ${
           error ? "border-red-500" : "border-gray-200"
