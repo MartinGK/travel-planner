@@ -78,8 +78,8 @@ export default function Combobox({
   };
 
   const handleClickRecommendation = (rec: string) => {
-    handleValueChange(rec);
     setShowRecommendations(false);
+    handleValueChange(rec);
   };
 
   const handleValueChange = (newValue: string) => {

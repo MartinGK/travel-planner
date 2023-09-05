@@ -6,16 +6,21 @@ import dayjs from "dayjs";
 import { v4 as uuid } from "uuid";
 import Label from "../Label";
 import "./index.css";
+import ErrorMessage from "../ErrorMessage";
 
 type Props = {
   value: string;
+  error: boolean;
   onChange: (value: string) => void;
 };
 
-export default function DatePicker({ value, onChange }: Props) {
+export default function DatePicker({ value, onChange, error }: Props) {
   const uniqueId = uuid();
 
   const handleDateChange: DatePickerProps["onChange"] = (date, dateString) => {
+    if (date?.isBefore(dayjs().add(-1, "day"))) {
+      return;
+    }
     onChange(dateString);
   };
 
@@ -39,9 +44,11 @@ export default function DatePicker({ value, onChange }: Props) {
           }
           disabledDate={(date) => date.isBefore(dayjs().add(-1, "day"))}
           popupClassName="customDatePicker"
+          className={error ? "border-red-500" : ""}
           defaultValue={dayjs(value, "DD/MM/YYYY")}
         />
       </Space>
+      <ErrorMessage showError={error}>Select a valid date</ErrorMessage>
     </Field>
   );
 }

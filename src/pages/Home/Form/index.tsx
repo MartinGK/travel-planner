@@ -28,19 +28,26 @@ const generateParamsObjectFromFormData = (data: {
   const params: ResultsProps = {
     cities: "",
     passengers: "0",
-    date: dayjs().format("MM/DD/YYYY"),
+    date: dayjs().format("DD/MM/YYYY"),
   };
   const citiesParam = ["", ""];
   Object.keys(data).forEach((key) => {
     if (key.includes("city")) {
       citiesParam[parseInt(key.split("-")[1])] = data[key] as string;
     } else if (key in params) {
-      params[key as keyof ResultsProps] = data[key] as string;
+      if (key === "date" && checkIfDateIsBefore(data[key])) {
+        return;
+      }else{
+        params[key as keyof ResultsProps] = data[key] as string;
+      }
     }
   });
-
   params.cities = JSON.stringify(citiesParam);
   return params;
+};
+
+const checkIfDateIsBefore = (date: string | FormDataEntryValue) => {
+  return dayjs(date as string, "DD/MM/YYYY").isBefore(dayjs());
 };
 
 export default function Form() {
@@ -140,7 +147,7 @@ export default function Form() {
         city ? false : true
       ),
       passengers: allSearchParams.passengers === "0",
-      date: dayjs(allSearchParams.date).isAfter(dayjs().add(-1, "day")),
+      date: checkIfDateIsBefore(allSearchParams.date),
     };
   };
 
@@ -235,6 +242,7 @@ export default function Form() {
             error={errors.passengers}
           />
           <DatePicker
+            error={errors.date}
             value={date ? date : dayjs().format("DD/MM/YYYY")}
             onChange={(value) => {
               updateSearchParams("date", value);
