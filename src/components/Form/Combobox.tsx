@@ -67,6 +67,7 @@ export default function Combobox({
     },
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+    cacheTime: 1
   });
 
   const handleShowRecommendations = (
@@ -104,7 +105,7 @@ export default function Combobox({
       />
       <Field
         name={name}
-        className="flex flex-col relative z-20"
+        className="flex flex-col relative"
         {...props}
         aria-required
       >
@@ -180,7 +181,7 @@ const Recommendations = ({
   onClickRecommendation: (r: string) => void;
 }) => {
   return (
-    <ul className="grid gap-2 justify-center relative z-20">
+    <ul className="grid gap-2 justify-center relative">
       {recommendations.map((recommendation) => {
         return (
           <li
