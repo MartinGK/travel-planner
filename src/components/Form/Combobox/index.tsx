@@ -1,25 +1,10 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { Suspense, useEffect, useId, useRef, useState } from "react";
 import { Field, Control } from "@radix-ui/react-form";
-import ErrorMessage from "./ErrorMessage";
-import Label from "./Label";
-import { Skeleton } from "antd";
-import { useQuery } from "react-query";
-import {
-  NO_RECOMMENDATIONS_MESSAGE,
-  getRecommendationsList,
-} from "../../utils/endpoints";
+import ErrorMessage from "../ErrorMessage";
+import Label from "../Label";
 import { Cross1Icon } from "@radix-ui/react-icons";
-
-type TRecommendationsBottomPosition = {
-  [k: number]: string;
-};
-
-const RecommendationsBottomPosition: TRecommendationsBottomPosition = {
-  0: "-bottom-20 h-24",
-  1: "-bottom-[2rem] h-10",
-  2: "-bottom-14 h-18",
-  3: "-bottom-[5.5rem] h-[6.1rem]",
-};
+import Recommendations from "./Recommendations";
+import { Skeleton } from "antd";
 
 type Props = {
   label: string;
@@ -40,15 +25,6 @@ export default function Combobox({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [showRecommendations, setShowRecommendations] = useState(false);
   const uniqueId = useId();
-
-  const { isLoading: isLoadingRecommendations, data: recommendations = [] } =
-    useQuery({
-      queryKey: ["cities", value],
-      queryFn: () => getRecommendationsList(value),
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      cacheTime: 1,
-    });
 
   const handleShowRecommendations = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -111,26 +87,32 @@ export default function Combobox({
           aria-label="delete"
           onClick={deleteValue}
         />
-        <div
-          className={`absolute transition bg-white shadow-xl rounded py-2 ${
-            RecommendationsBottomPosition[
-              recommendations.length >= 3 || isLoadingRecommendations
-                ? 3
-                : recommendations.length
-            ]
-          } overflow-y-scroll overflow-x-hidden left-0 w-48 border border-light-purple ${
-            showRecommendations ? " z-20 opacity-100" : "-z-20 opacity-0 hidden"
+        <Suspense
+          fallback={
+            <div
+              className={`absolute transition bg-white shadow-xl rounded py-2 -bottom-[5.5rem] h-[6.1rem] overflow-y-scroll overflow-x-hidden left-0 w-48 border border-light-purple ${
+                showRecommendations ? " z-20 opacity-100" : "-z-20 opacity-0 hidden"
+              }
+              `}
+            >
+              <Skeleton
+                title={false}
+                paragraph={{ rows: 3, width: "9rem" }}
+                className="px-2"
+                active
+                loading={true}
+              />
+            </div>
           }
-        `}
         >
           <Recommendations
+            show={showRecommendations}
             onClickRecommendation={(recommendation: string) =>
               handleClickRecommendation(recommendation)
             }
-            isLoading={isLoadingRecommendations}
-            recommendations={recommendations}
+            value={value}
           />
-        </div>
+        </Suspense>
         <ErrorMessage name={name} showError={error}>
           {`You must choose ${
             label.includes("origin") && value === ""
@@ -142,47 +124,3 @@ export default function Combobox({
     </>
   );
 }
-
-const Recommendations = ({
-  recommendations,
-  isLoading,
-  onClickRecommendation,
-}: {
-  recommendations: string[];
-  isLoading: boolean;
-  onClickRecommendation: (r: string) => void;
-}) => {
-  const disabled = recommendations[0] === NO_RECOMMENDATIONS_MESSAGE;
-
-  if (isLoading) {
-    return (
-      <Skeleton
-        title={false}
-        paragraph={{ rows: 3, width: "9rem" }}
-        className="px-2"
-        active
-        loading={true}
-      />
-    );
-  }
-
-  return (
-    <ul className="grid gap-2 justify-center relative">
-      {recommendations.map((recommendation) => {
-        return (
-          <li
-            key={recommendation}
-            className={`flex items-center h-5 w-40 cursor-pointer ${
-              disabled ? "hover:bg-light-purple" : ""
-            } p-1 text-xs rounded`}
-            onClick={() =>
-              disabled ? null : onClickRecommendation(recommendation)
-            }
-          >
-            {recommendation}
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
