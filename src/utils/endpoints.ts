@@ -28,7 +28,8 @@ export const getAllCitiesNames = async (): Promise<string[]> => {
 //The first endpoint receives a keyword and returns a list of cities that match the keyword.
 export const getRecommendationsList = async (keyword: string) => {
   if (keyword.toLowerCase() === ERROR_STRING.toLowerCase()) {
-    throw new Error(`Oops! I did it again!`);
+    new Error(`Oops! I did it again!`);
+    return [NO_RECOMMENDATIONS_MESSAGE];
   }
   const allCitiesNames = await getAllCitiesNames();
 
@@ -36,7 +37,7 @@ export const getRecommendationsList = async (keyword: string) => {
     c.toLowerCase().includes(keyword.toLowerCase())
   );
 
-  if(recommendations.length === 0){
+  if (recommendations.length === 0) {
     recommendations.push(NO_RECOMMENDATIONS_MESSAGE);
   }
 

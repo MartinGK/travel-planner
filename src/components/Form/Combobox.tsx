@@ -1,5 +1,4 @@
-import { v4 as uuid } from "uuid";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Field, Control } from "@radix-ui/react-form";
 import ErrorMessage from "./ErrorMessage";
 import Label from "./Label";
@@ -9,8 +8,6 @@ import {
   NO_RECOMMENDATIONS_MESSAGE,
   getRecommendationsList,
 } from "../../utils/endpoints";
-import { useAppDispatch, useAppSelector } from "../../hooks/useReactRedux";
-import { setRecommendedCities } from "../../store/slices/citiesSlice";
 import { Cross1Icon } from "@radix-ui/react-icons";
 
 type TRecommendationsBottomPosition = {
@@ -42,39 +39,21 @@ export default function Combobox({
 }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [showRecommendations, setShowRecommendations] = useState(false);
-  const recommendations = useAppSelector(
-    (state) => state.cities.recommendedCities
-  );
-  const [isLoadingRecommendations, setIsLoadingRecommendations] =
-    useState(false);
-  const uniqueId = uuid();
-  const dispatch = useAppDispatch();
+  const uniqueId = useId();
 
-  useQuery({
-    queryKey: ["cities", value],
-    queryFn: () => {
-      dispatch(setRecommendedCities([]));
-      setIsLoadingRecommendations(true);
-      return getRecommendationsList(value);
-    },
-    onSuccess(data) {
-      setIsLoadingRecommendations(false);
-      dispatch(setRecommendedCities(data));
-    },
-    onError() {
-      setIsLoadingRecommendations(false);
-      dispatch(setRecommendedCities([NO_RECOMMENDATIONS_MESSAGE]));
-    },
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    cacheTime: 1
-  });
+  const { isLoading: isLoadingRecommendations, data: recommendations = [] } =
+    useQuery({
+      queryKey: ["cities", value],
+      queryFn: () => getRecommendationsList(value),
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      cacheTime: 1,
+    });
 
   const handleShowRecommendations = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     handleValueChange(event.target.value);
-    setIsLoadingRecommendations(true);
     setShowRecommendations(true);
   };
 
@@ -100,7 +79,9 @@ export default function Combobox({
   return (
     <>
       <div
-        className={`z-10 opacity-100 h-screen bg-transparent absolute w-screen top-0 left-0 ${showRecommendations ? 'block': 'hidden'}`}
+        className={`z-10 opacity-100 h-screen bg-transparent absolute w-screen top-0 left-0 ${
+          showRecommendations ? "block" : "hidden"
+        }`}
         onClick={() => setShowRecommendations(false)}
       />
       <Field
@@ -142,22 +123,13 @@ export default function Combobox({
           }
         `}
         >
-          <Skeleton
-            title={false}
-            paragraph={{ rows: 3, width: "9rem" }}
-            className="px-2"
-            active
-            loading={isLoadingRecommendations}
+          <Recommendations
+            onClickRecommendation={(recommendation: string) =>
+              handleClickRecommendation(recommendation)
+            }
+            isLoading={isLoadingRecommendations}
+            recommendations={recommendations}
           />
-          {showRecommendations && (
-            <Recommendations
-              onClickRecommendation={(recommendation: string) =>
-                handleClickRecommendation(recommendation)
-              }
-              disabled={recommendations[0] === NO_RECOMMENDATIONS_MESSAGE}
-              recommendations={recommendations}
-            />
-          )}
         </div>
         <ErrorMessage name={name} showError={error}>
           {`You must choose ${
@@ -173,13 +145,27 @@ export default function Combobox({
 
 const Recommendations = ({
   recommendations,
-  disabled,
+  isLoading,
   onClickRecommendation,
 }: {
   recommendations: string[];
-  disabled: boolean;
+  isLoading: boolean;
   onClickRecommendation: (r: string) => void;
 }) => {
+  const disabled = recommendations[0] === NO_RECOMMENDATIONS_MESSAGE;
+
+  if (isLoading) {
+    return (
+      <Skeleton
+        title={false}
+        paragraph={{ rows: 3, width: "9rem" }}
+        className="px-2"
+        active
+        loading={true}
+      />
+    );
+  }
+
   return (
     <ul className="grid gap-2 justify-center relative">
       {recommendations.map((recommendation) => {
